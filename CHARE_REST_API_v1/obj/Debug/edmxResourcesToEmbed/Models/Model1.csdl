@@ -1,0 +1,258 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="CHARE_DBModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="CarModel">
+    <Key>
+      <PropertyRef Name="CarModelID" />
+    </Key>
+    <Property Name="CarModelID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="make" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="model" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+  </EntityType>
+  <EntityType Name="CarModel2">
+    <Key>
+      <PropertyRef Name="CarModelID" />
+    </Key>
+    <Property Name="CarModelID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="year" Type="Int32" Nullable="false" />
+    <Property Name="make" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="model" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Member">
+    <Key>
+      <PropertyRef Name="MemberID" />
+    </Key>
+    <Property Name="MemberID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="username" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="password" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="gender" Type="String" MaxLength="10" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="phoneno" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="type" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+    <NavigationProperty Name="Ratings" Relationship="Self.FK__Rating__MemberID__6477ECF3" FromRole="Member" ToRole="Rating" />
+    <NavigationProperty Name="TripDrivers" Relationship="Self.FK__TripDrive__Drive__59063A47" FromRole="Member" ToRole="TripDriver" />
+    <NavigationProperty Name="TripPassengers" Relationship="Self.FK__TripPasse__Passe__5BE2A6F2" FromRole="Member" ToRole="TripPassenger" />
+    <NavigationProperty Name="Vehicles" Relationship="Self.FK__Vehicle__MemberI__52593CB8" FromRole="Member" ToRole="Vehicle" />
+    <NavigationProperty Name="Ratings1" Relationship="CHARE_DBModel.FK__Rating__RaterID__73BA3083" FromRole="Member" ToRole="Rating" />
+  </EntityType>
+  <EntityType Name="Rating">
+    <Key>
+      <PropertyRef Name="RateID" />
+    </Key>
+    <Property Name="RateID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="MemberID" Type="Int32" />
+    <NavigationProperty Name="Member" Relationship="Self.FK__Rating__MemberID__6477ECF3" FromRole="Rating" ToRole="Member" />
+    <Property Name="RaterID" Type="Int32" />
+    <Property Name="comment" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
+    <NavigationProperty Name="Member1" Relationship="CHARE_DBModel.FK__Rating__RaterID__73BA3083" FromRole="Rating" ToRole="Member" />
+    <Property Name="rate" Type="Int32" />
+  </EntityType>
+  <EntityType Name="Request">
+    <Key>
+      <PropertyRef Name="RequestID" />
+    </Key>
+    <Property Name="RequestID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="SenderID" Type="Int32" />
+    <Property Name="DriverID" Type="Int32" />
+    <Property Name="status" Type="String" MaxLength="30" FixedLength="false" Unicode="false" Nullable="false" />
+    <NavigationProperty Name="TripDriver" Relationship="Self.FK__Request__DriverI__60A75C0F" FromRole="Request" ToRole="TripDriver" />
+    <NavigationProperty Name="TripPassenger" Relationship="Self.FK__Request__SenderI__5FB337D6" FromRole="Request" ToRole="TripPassenger" />
+  </EntityType>
+  <EntityType Name="TripDriver">
+    <Key>
+      <PropertyRef Name="TripDriverID" />
+    </Key>
+    <Property Name="TripDriverID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="DriverID" Type="Int32" />
+    <Property Name="originLatLng" Type="String" MaxLength="150" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="destinationLatLng" Type="String" MaxLength="150" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="origin" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="destination" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="arriveTime" Type="Time" Nullable="false" Precision="7" />
+    <Property Name="femaleOnly" Type="String" MaxLength="3" FixedLength="false" Unicode="false" />
+    <Property Name="cost" Type="Double" />
+    <Property Name="distance" Type="Double" />
+    <Property Name="duration" Type="Int32" />
+    <Property Name="costStr" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+    <Property Name="distanceStr" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+    <Property Name="durationStr" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+    <Property Name="days" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+    <Property Name="PassengerIDs" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="availableSeat" Type="Int32" />
+    <NavigationProperty Name="Member" Relationship="Self.FK__TripDrive__Drive__59063A47" FromRole="TripDriver" ToRole="Member" />
+    <NavigationProperty Name="Requests" Relationship="Self.FK__Request__DriverI__60A75C0F" FromRole="TripDriver" ToRole="Request" />
+    <NavigationProperty Name="TripPassengers" Relationship="Self.FK__TripPasse__TripD__5CD6CB2B" FromRole="TripDriver" ToRole="TripPassenger" />
+  </EntityType>
+  <EntityType Name="TripPassenger">
+    <Key>
+      <PropertyRef Name="TripPassengerID" />
+    </Key>
+    <Property Name="TripPassengerID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="PassengerID" Type="Int32" />
+    <Property Name="TripDriverID" Type="Int32" />
+    <Property Name="originLatLng" Type="String" MaxLength="150" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="destinationLatLng" Type="String" MaxLength="150" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="origin" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="destination" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="arriveTime" Type="Time" Nullable="false" Precision="7" />
+    <Property Name="femaleOnly" Type="String" MaxLength="3" FixedLength="false" Unicode="false" />
+    <Property Name="cost" Type="Double" />
+    <Property Name="distance" Type="Double" />
+    <Property Name="duration" Type="Int32" />
+    <Property Name="costStr" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+    <Property Name="distanceStr" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+    <Property Name="durationStr" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+    <Property Name="days" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+    <NavigationProperty Name="Member" Relationship="Self.FK__TripPasse__Passe__5BE2A6F2" FromRole="TripPassenger" ToRole="Member" />
+    <NavigationProperty Name="Requests" Relationship="Self.FK__Request__SenderI__5FB337D6" FromRole="TripPassenger" ToRole="Request" />
+    <NavigationProperty Name="TripDriver" Relationship="Self.FK__TripPasse__TripD__5CD6CB2B" FromRole="TripPassenger" ToRole="TripDriver" />
+  </EntityType>
+  <EntityType Name="Vehicle">
+    <Key>
+      <PropertyRef Name="VehicleID" />
+    </Key>
+    <Property Name="VehicleID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="MemberID" Type="Int32" />
+    <Property Name="make" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="model" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="color" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="plateNo" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+    <NavigationProperty Name="Member" Relationship="Self.FK__Vehicle__MemberI__52593CB8" FromRole="Vehicle" ToRole="Member" />
+  </EntityType>
+  <Association Name="FK__Rating__MemberID__6477ECF3">
+    <End Role="Member" Type="Self.Member" Multiplicity="0..1" />
+    <End Role="Rating" Type="Self.Rating" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Member">
+        <PropertyRef Name="MemberID" />
+      </Principal>
+      <Dependent Role="Rating">
+        <PropertyRef Name="MemberID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__TripDrive__Drive__59063A47">
+    <End Role="Member" Type="Self.Member" Multiplicity="0..1" />
+    <End Role="TripDriver" Type="Self.TripDriver" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Member">
+        <PropertyRef Name="MemberID" />
+      </Principal>
+      <Dependent Role="TripDriver">
+        <PropertyRef Name="DriverID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__TripPasse__Passe__5BE2A6F2">
+    <End Role="Member" Type="Self.Member" Multiplicity="0..1" />
+    <End Role="TripPassenger" Type="Self.TripPassenger" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Member">
+        <PropertyRef Name="MemberID" />
+      </Principal>
+      <Dependent Role="TripPassenger">
+        <PropertyRef Name="PassengerID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__Vehicle__MemberI__52593CB8">
+    <End Role="Member" Type="Self.Member" Multiplicity="0..1" />
+    <End Role="Vehicle" Type="Self.Vehicle" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Member">
+        <PropertyRef Name="MemberID" />
+      </Principal>
+      <Dependent Role="Vehicle">
+        <PropertyRef Name="MemberID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__Request__DriverI__60A75C0F">
+    <End Role="TripDriver" Type="Self.TripDriver" Multiplicity="0..1" />
+    <End Role="Request" Type="Self.Request" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="TripDriver">
+        <PropertyRef Name="TripDriverID" />
+      </Principal>
+      <Dependent Role="Request">
+        <PropertyRef Name="DriverID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__Request__SenderI__5FB337D6">
+    <End Role="TripPassenger" Type="Self.TripPassenger" Multiplicity="0..1" />
+    <End Role="Request" Type="Self.Request" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="TripPassenger">
+        <PropertyRef Name="TripPassengerID" />
+      </Principal>
+      <Dependent Role="Request">
+        <PropertyRef Name="SenderID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__TripPasse__TripD__5CD6CB2B">
+    <End Role="TripDriver" Type="Self.TripDriver" Multiplicity="0..1" />
+    <End Role="TripPassenger" Type="Self.TripPassenger" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="TripDriver">
+        <PropertyRef Name="TripDriverID" />
+      </Principal>
+      <Dependent Role="TripPassenger">
+        <PropertyRef Name="TripDriverID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="CHARE_DBEntities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="CarModels" EntityType="Self.CarModel" />
+    <EntitySet Name="CarModel2" EntityType="Self.CarModel2" />
+    <EntitySet Name="Members" EntityType="Self.Member" />
+    <EntitySet Name="Ratings" EntityType="Self.Rating" />
+    <EntitySet Name="Requests" EntityType="Self.Request" />
+    <EntitySet Name="TripDrivers" EntityType="Self.TripDriver" />
+    <EntitySet Name="TripPassengers" EntityType="Self.TripPassenger" />
+    <EntitySet Name="Vehicles" EntityType="Self.Vehicle" />
+    <AssociationSet Name="FK__Rating__MemberID__6477ECF3" Association="Self.FK__Rating__MemberID__6477ECF3">
+      <End Role="Member" EntitySet="Members" />
+      <End Role="Rating" EntitySet="Ratings" />
+    </AssociationSet>
+    <AssociationSet Name="FK__TripDrive__Drive__59063A47" Association="Self.FK__TripDrive__Drive__59063A47">
+      <End Role="Member" EntitySet="Members" />
+      <End Role="TripDriver" EntitySet="TripDrivers" />
+    </AssociationSet>
+    <AssociationSet Name="FK__TripPasse__Passe__5BE2A6F2" Association="Self.FK__TripPasse__Passe__5BE2A6F2">
+      <End Role="Member" EntitySet="Members" />
+      <End Role="TripPassenger" EntitySet="TripPassengers" />
+    </AssociationSet>
+    <AssociationSet Name="FK__Vehicle__MemberI__52593CB8" Association="Self.FK__Vehicle__MemberI__52593CB8">
+      <End Role="Member" EntitySet="Members" />
+      <End Role="Vehicle" EntitySet="Vehicles" />
+    </AssociationSet>
+    <AssociationSet Name="FK__Request__DriverI__60A75C0F" Association="Self.FK__Request__DriverI__60A75C0F">
+      <End Role="TripDriver" EntitySet="TripDrivers" />
+      <End Role="Request" EntitySet="Requests" />
+    </AssociationSet>
+    <AssociationSet Name="FK__Request__SenderI__5FB337D6" Association="Self.FK__Request__SenderI__5FB337D6">
+      <End Role="TripPassenger" EntitySet="TripPassengers" />
+      <End Role="Request" EntitySet="Requests" />
+    </AssociationSet>
+    <AssociationSet Name="FK__TripPasse__TripD__5CD6CB2B" Association="Self.FK__TripPasse__TripD__5CD6CB2B">
+      <End Role="TripDriver" EntitySet="TripDrivers" />
+      <End Role="TripPassenger" EntitySet="TripPassengers" />
+    </AssociationSet>
+    <AssociationSet Name="FK__Rating__RaterID__73BA3083" Association="CHARE_DBModel.FK__Rating__RaterID__73BA3083">
+      <End Role="Member" EntitySet="Members" />
+      <End Role="Rating" EntitySet="Ratings" />
+    </AssociationSet>
+  </EntityContainer>
+  <Association Name="FK__Rating__RaterID__73BA3083">
+    <End Type="CHARE_DBModel.Member" Role="Member" Multiplicity="0..1" />
+    <End Type="CHARE_DBModel.Rating" Role="Rating" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Member">
+        <PropertyRef Name="MemberID" />
+      </Principal>
+      <Dependent Role="Rating">
+        <PropertyRef Name="RaterID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+</Schema>
