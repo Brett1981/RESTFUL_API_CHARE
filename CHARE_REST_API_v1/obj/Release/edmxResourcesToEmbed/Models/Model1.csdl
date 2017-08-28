@@ -32,6 +32,7 @@
     <NavigationProperty Name="TripPassengers" Relationship="Self.FK__TripPasse__Passe__5BE2A6F2" FromRole="Member" ToRole="TripPassenger" />
     <NavigationProperty Name="Vehicles" Relationship="Self.FK__Vehicle__MemberI__52593CB8" FromRole="Member" ToRole="Vehicle" />
     <NavigationProperty Name="Ratings1" Relationship="CHARE_DBModel.FK__Rating__RaterID__73BA3083" FromRole="Member" ToRole="Rating" />
+    <Property Name="rate" Type="Double" />
   </EntityType>
   <EntityType Name="Rating">
     <Key>

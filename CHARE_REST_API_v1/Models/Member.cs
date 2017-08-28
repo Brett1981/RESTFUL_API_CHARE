@@ -30,6 +30,7 @@ namespace CHARE_REST_API_v1.Models
         public string gender { get; set; }
         public string phoneno { get; set; }
         public string type { get; set; }
+        public Nullable<double> rate { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Rating> Ratings { get; set; }

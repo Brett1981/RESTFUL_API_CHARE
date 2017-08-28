@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <parameters>
   <parameter name="CHARE_DBEntities-Web.config Connection String" description="CHARE_DBEntities Connection String used in web.config by the application to access the database." defaultValue="metadata=res://*/Models.Model1.csdl|res://*/Models.Model1.ssdl|res://*/Models.Model1.msl;provider=System.Data.SqlClient;provider connection string=&quot;data source=charerestapi.database.windows.net;initial catalog=CHARE_DB;persist security info=True;user id=jacky;password=P@$$word;multipleactiveresultsets=True;application name=EntityFramework&quot;" tags="SqlConnectionString">
-    <parameterEntry kind="XmlFile" scope="c:\\Users\\WeiKei\\Documents\\Visual\ Studio\ 2017\\Projects\\CHARE_REST_API_v1\\CHARE_REST_API_v1\\obj\\Release\\Package\\PackageTmp\\Web\.config$" match="/configuration/connectionStrings/add[@name='CHARE_DBEntities']/@connectionString" />
+    <parameterEntry kind="XmlFile" scope="C:\\Users\\WeiKei\\Documents\\Visual\ Studio\ 2017\\Projects\\CHARE_REST_API_v1\\CHARE_REST_API_v1\\obj\\Release\\Package\\PackageTmp\\Web\.config$" match="/configuration/connectionStrings/add[@name='CHARE_DBEntities']/@connectionString" />
   </parameter>
 </parameters>

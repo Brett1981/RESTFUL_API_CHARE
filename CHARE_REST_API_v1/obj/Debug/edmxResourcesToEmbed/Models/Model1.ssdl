@@ -35,7 +35,7 @@
     <Property Name="RateID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="MemberID" Type="int" />
     <Property Name="RaterID" Type="int" />
-    <Property Name="rate" Type="int" />
+    <Property Name="rate" Type="float" />
     <Property Name="comment" Type="varchar" MaxLength="150" />
   </EntityType>
   <EntityType Name="Request">
@@ -101,7 +101,7 @@
     <Property Name="color" Type="varchar" MaxLength="50" />
     <Property Name="plateNo" Type="varchar" MaxLength="20" />
   </EntityType>
-  <Association Name="FK__Rating__MemberID__76969D2E">
+  <Association Name="FK__Rating__MemberID__7A672E12">
     <End Role="Member" Type="Self.Member" Multiplicity="0..1" />
     <End Role="Rating" Type="Self.Rating" Multiplicity="*" />
     <ReferentialConstraint>
@@ -113,7 +113,7 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK__Rating__RaterID__778AC167">
+  <Association Name="FK__Rating__RaterID__7B5B524B">
     <End Role="Member" Type="Self.Member" Multiplicity="0..1" />
     <End Role="Rating" Type="Self.Rating" Multiplicity="*" />
     <ReferentialConstraint>
@@ -206,11 +206,11 @@
     <EntitySet Name="TripDriver" EntityType="Self.TripDriver" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="TripPassenger" EntityType="Self.TripPassenger" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Vehicle" EntityType="Self.Vehicle" Schema="dbo" store:Type="Tables" />
-    <AssociationSet Name="FK__Rating__MemberID__76969D2E" Association="Self.FK__Rating__MemberID__76969D2E">
+    <AssociationSet Name="FK__Rating__MemberID__7A672E12" Association="Self.FK__Rating__MemberID__7A672E12">
       <End Role="Member" EntitySet="Member" />
       <End Role="Rating" EntitySet="Rating" />
     </AssociationSet>
-    <AssociationSet Name="FK__Rating__RaterID__778AC167" Association="Self.FK__Rating__RaterID__778AC167">
+    <AssociationSet Name="FK__Rating__RaterID__7B5B524B" Association="Self.FK__Rating__RaterID__7B5B524B">
       <End Role="Member" EntitySet="Member" />
       <End Role="Rating" EntitySet="Rating" />
     </AssociationSet>

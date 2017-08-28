@@ -80,8 +80,22 @@ namespace CHARE_REST_API_v1.Controllers
             }
 
             db.Ratings.Add(rating);
-            db.SaveChanges();
-
+            
+            var fiveStars = db.Ratings.Count(t => t.MemberID == rating.MemberID && t.rate == 5);
+            var fourStars = db.Ratings.Count(t => t.MemberID == rating.MemberID && t.rate == 4);
+            var threeStars = db.Ratings.Count(t => t.MemberID == rating.MemberID && t.rate == 3);
+            var twoStars = db.Ratings.Count(t => t.MemberID == rating.MemberID && t.rate == 2);
+            var oneStars = db.Ratings.Count(t => t.MemberID == rating.MemberID && t.rate == 1);
+            int totalNoOfRate = fiveStars + fourStars + threeStars + twoStars + oneStars;
+            if (totalNoOfRate != 0)
+            {
+                var averageRate = (5 * fiveStars + 4 * fourStars + 3 * threeStars + 2 * twoStars + 1 * oneStars) / totalNoOfRate;
+                Member m = (from t in db.Members
+                            where t.MemberID == rating.MemberID
+                            select t).First();
+                m.rate = averageRate;
+            }
+            db.SaveChanges();            
             return CreatedAtRoute("DefaultApi", new { id = rating.RateID }, rating);
         }
 

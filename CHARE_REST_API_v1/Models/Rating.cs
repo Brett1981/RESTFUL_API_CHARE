@@ -14,7 +14,7 @@ namespace CHARE_REST_API_v1.Models
     
     public partial class Rating
     {
-        public int RateID { get; set; }      
+        public int RateID { get; set; }
         public Nullable<int> MemberID { get; set; }
         public Nullable<int> RaterID { get; set; }
         public string comment { get; set; }
