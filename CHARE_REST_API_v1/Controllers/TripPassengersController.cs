@@ -86,6 +86,56 @@ namespace CHARE_REST_API_v1.Controllers
             return StatusCode(HttpStatusCode.NoContent);
         }
 
+        // PUT: api/TripPassengers/5
+        [ResponseType(typeof(void))]
+        public IHttpActionResult PutTripPassenger(int id, int tripDriverID, TripPassenger tripPassenger)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            if (id != tripPassenger.TripPassengerID)
+            {
+                return BadRequest();
+            }
+
+            db.Entry(tripPassenger).State = EntityState.Modified;
+                        
+            // Remove TripPassengerID from the TripDriver data
+            TripDriver tripDriver = (from t in db.TripDrivers
+                                        where t.TripDriverID == tripDriverID
+                                        select t).First();
+            string[] passengers = tripDriver.PassengerIDs.ToString().Split(',').Where(s => s != tripPassenger.TripPassengerID.ToString()).ToArray();
+            tripDriver.PassengerIDs = string.Join(",", passengers);
+
+            // Remove the particular request
+            Request request = (from t in db.Requests
+                           where t.SenderID == tripPassenger.TripPassengerID &&
+                           t.DriverID == tripDriverID
+                           select t).First();
+            db.Requests.Remove(request);
+
+            try
+            {
+                db.SaveChanges();
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                if (!TripPassengerExists(id))
+                {
+                    return NotFound();
+                }
+                else
+                {
+                    throw;
+                }
+            }
+
+            return StatusCode(HttpStatusCode.NoContent);
+        }
+
+
         // POST: api/TripPassengers
         [ResponseType(typeof(TripPassenger))]
         public IHttpActionResult PostTripPassenger(TripPassenger tripPassenger)
@@ -109,6 +159,23 @@ namespace CHARE_REST_API_v1.Controllers
             if (tripPassenger == null)
             {
                 return NotFound();
+            }
+
+            if (!tripPassenger.TripDriverID.Equals(""))
+            {
+                // Remove TripPassengerID from the TripDriver data
+                TripDriver tripDriver = (from t in db.TripDrivers
+                                         where t.TripDriverID == tripPassenger.TripDriverID
+                                         select t).First();
+                string[] passengers = tripDriver.PassengerIDs.ToString().Split(',').Where(s => s != id.ToString()).ToArray();
+                tripDriver.PassengerIDs = string.Join(",", passengers);
+
+                // Remove the particular request
+                Request request = (from t in db.Requests
+                                   where t.SenderID == tripPassenger.TripPassengerID &&
+                                   t.DriverID == tripPassenger.TripDriverID
+                                   select t).First();
+                db.Requests.Remove(request);
             }
 
             db.TripPassengers.Remove(tripPassenger);

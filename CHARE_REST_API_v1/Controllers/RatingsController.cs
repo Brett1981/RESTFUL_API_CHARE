@@ -35,6 +35,22 @@ namespace CHARE_REST_API_v1.Controllers
             return Ok(rating);
         }
 
+        [ResponseType(typeof(Rating))]
+        public IHttpActionResult GetRating(int id, string type)
+        {
+            List<Rating> rating = null;
+            
+            if (type.Equals("List"))
+              rating  = db.Ratings.Where(t => t.MemberID == id).Take(5).ToList();
+
+            if (rating == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(rating);
+        }
+
         // PUT: api/Ratings/5
         [ResponseType(typeof(void))]
         public IHttpActionResult PutRating(int id, Rating rating)
