@@ -95,6 +95,60 @@ namespace CHARE_REST_API_v1.Controllers
             return StatusCode(HttpStatusCode.NoContent);
         }
 
+
+        // Custom PUT: api/TripDrivers/5
+        [ResponseType(typeof(void))]
+        public IHttpActionResult PutTripDriver(int id, string tripPassengerID, TripDriver tripDriver)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            if (id != tripDriver.TripDriverID)
+            {
+                return BadRequest();
+            }
+
+            db.Entry(tripDriver).State = EntityState.Modified;
+            
+            // Remove TripPassengerID from the TripDriver data
+            string[] tripPassengerIDs = tripPassengerID.Split(',');
+            foreach (string tempID in tripPassengerIDs)
+            {
+                int tID = int.Parse(tempID);
+                TripPassenger tripPassenger = (from t in db.TripPassengers
+                                                where t.TripPassengerID == tID
+                                                select t).First();
+                tripPassenger.TripDriverID = null;
+
+                // Remove the particular request
+                Request request = (from t in db.Requests
+                                    where t.SenderID == tID &&
+                                    t.DriverID == id
+                                    select t).First();
+                db.Requests.Remove(request);
+            }            
+
+            try
+            {
+                db.SaveChanges();
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                if (!TripDriverExists(id))
+                {
+                    return NotFound();
+                }
+                else
+                {
+                    throw;
+                }
+            }
+
+            return StatusCode(HttpStatusCode.NoContent);
+        }
+
         // POST: api/TripDrivers
         [ResponseType(typeof(TripDriver))]
         public IHttpActionResult PostTripDriver(TripDriver tripDriver)
@@ -119,7 +173,28 @@ namespace CHARE_REST_API_v1.Controllers
             {
                 return NotFound();
             }
+         
+            if (!string.IsNullOrEmpty(tripDriver.PassengerIDs))
+            {                   
+                // Remove TripPassengerID from the TripDriver data
+                string[] tripPassengerIDs = tripDriver.PassengerIDs.Split(',');
+                foreach (string tempID in tripPassengerIDs)
+                {                    
+                    int tID = int.Parse(tempID);
+                    TripPassenger tripPassenger = (from t in db.TripPassengers
+                                                   where t.TripPassengerID == tID
+                                                   select t).First();
+                    tripPassenger.TripDriverID = null;
 
+                    // Remove the particular request
+                    List<Request> requests = (from t in db.Requests
+                                       where t.DriverID == id
+                                       select t).ToList();
+                    foreach (Request tempRequest in requests)
+                        db.Requests.Remove(tempRequest);
+                }
+                db.SaveChanges();
+            }
             db.TripDrivers.Remove(tripDriver);
             db.SaveChanges();
 

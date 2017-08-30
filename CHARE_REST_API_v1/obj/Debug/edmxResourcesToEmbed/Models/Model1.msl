@@ -23,6 +23,7 @@
     <EntitySetMapping Name="Members">
       <EntityTypeMapping TypeName="CHARE_DBModel.Member">
         <MappingFragment StoreEntitySet="Member">
+          <ScalarProperty Name="rate" ColumnName="rate" />
           <ScalarProperty Name="MemberID" ColumnName="MemberID" />
           <ScalarProperty Name="username" ColumnName="username" />
           <ScalarProperty Name="password" ColumnName="password" />

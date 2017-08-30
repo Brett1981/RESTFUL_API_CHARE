@@ -86,7 +86,7 @@ namespace CHARE_REST_API_v1.Controllers
             return StatusCode(HttpStatusCode.NoContent);
         }
 
-        // PUT: api/TripPassengers/5
+        // Custom PUT: api/TripPassengers/5
         [ResponseType(typeof(void))]
         public IHttpActionResult PutTripPassenger(int id, int tripDriverID, TripPassenger tripPassenger)
         {
@@ -161,23 +161,27 @@ namespace CHARE_REST_API_v1.Controllers
                 return NotFound();
             }
 
-            if (!tripPassenger.TripDriverID.Equals(""))
+            if (!tripPassenger.TripDriverID.Equals(null))
             {
-                // Remove TripPassengerID from the TripDriver data
-                TripDriver tripDriver = (from t in db.TripDrivers
-                                         where t.TripDriverID == tripPassenger.TripDriverID
-                                         select t).First();
-                string[] passengers = tripDriver.PassengerIDs.ToString().Split(',').Where(s => s != id.ToString()).ToArray();
-                tripDriver.PassengerIDs = string.Join(",", passengers);
+                if (!tripPassenger.TripDriverID.Equals(""))
+                {
+                    // Remove TripPassengerID from the TripDriver data
+                    TripDriver tripDriver = (from t in db.TripDrivers
+                                             where t.TripDriverID == tripPassenger.TripDriverID
+                                             select t).First();
+                    string[] passengers = tripDriver.PassengerIDs.ToString().Split(',').Where(s => s != id.ToString()).ToArray();
+                    tripDriver.PassengerIDs = string.Join(",", passengers);
+                    if (string.IsNullOrEmpty(tripDriver.PassengerIDs))
+                        tripDriver.PassengerIDs = string.Empty;
 
-                // Remove the particular request
-                Request request = (from t in db.Requests
-                                   where t.SenderID == tripPassenger.TripPassengerID &&
-                                   t.DriverID == tripPassenger.TripDriverID
-                                   select t).First();
-                db.Requests.Remove(request);
+                    // Remove the particular request
+                    Request request = (from t in db.Requests
+                                       where t.SenderID == tripPassenger.TripPassengerID &&
+                                       t.DriverID == tripPassenger.TripDriverID
+                                       select t).First();
+                    db.Requests.Remove(request);
+                }
             }
-
             db.TripPassengers.Remove(tripPassenger);
             db.SaveChanges();
 
